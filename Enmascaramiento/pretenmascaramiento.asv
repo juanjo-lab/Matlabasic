@@ -1,0 +1,31 @@
+% JUAN JOSE MARTINEZ CAMARA
+function pretenmascaramiento(f,SPL_1,SPL_2,SPL_ref,t_dif)
+%definimos los parametros temporales 
+t_in=0;t_fin=0.5;
+fs=44100;
+%definimos nuestro vector temporal
+t=t_in:1/fs:t_fin;
+
+%normalizamos la diferencia temporal entre tonos para trabajar en ms
+t_dif=t_dif/1000;
+%sacamos el numero de muestras que necesitamos (las convertimos en zeros
+% ya que realmente nuestra diferencia son ceros)
+N_dif=round(fs*t_dif);
+
+
+t_2=t_in:1/fs:0.03;%caracterizamos nuestro tono enmas
+
+A1=10^((SPL_1-SPL_ref)/20);
+A2=10^((SPL_2-SPL_ref)/20);
+espera=zeros(1,length(t_in:1/fs:1));
+
+tono1=A1*sin(2*pi*f*t);
+diftiempo=zeros(1,N_dif);
+tono2=A2*sin(2*pi*f*t_2);
+
+pretenmascarado=[espera tono2 diftiempo tono1];
+
+sound(pretenmascarado,fs);
+length(pretenmascarado)/fs
+
+end

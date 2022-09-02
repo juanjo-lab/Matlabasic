@@ -1,0 +1,26 @@
+% JUAN JOSE MARTINEZ CAMARA
+function postenmascaramiento(f,SPL_1,SPL_2,SPL_ref,t_dif)
+%definimos los parametros temporales
+t_in=0;t_fin=0.5;
+fs=44100;
+%definimos nuestro vector temporal
+t=t_in:1/fs:t_fin;
+%normalizamos
+t_dif=t_dif/1000;
+%definimos el vector temporal de nuestro sonido enmascarado
+t_2=t_in:1/fs:0.003;
+%definimos el numero de ceros que tenemos que introducir entre mu
+N_dif=round(fs*t_dif);
+
+A1=10^((SPL_1-SPL_ref)/20);
+A2=10^((SPL_2-SPL_ref)/20);
+tono1=A1*sin(2*pi*f*t);
+diftiempo=zeros(1,N_dif);
+tono2=A2*sin(2*pi*f*t_2);
+
+postenmascarado=[tono1 diftiempo tono2];
+
+sound(postenmascarado,fs);
+length(postenmascarado)/fs
+
+end
